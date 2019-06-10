@@ -4,7 +4,10 @@ const dbUsers = require('./users-model');
 
 router.get('/', (req, res) => {
     dbUsers.find()
-    .then()
+    .then(users => {
+        users.length >= 1 ? res.status(200).json({success: true, users}):
+        res.status(404).json({success: false, message: 'Sorry, currently, no users in database!'})
+    })
     .catch(err => {
         res.status(500).json(errorRef(err))
     })
