@@ -1,7 +1,14 @@
 const express = require('express');
+const helmet = require('helmet')
+const userRoutes = require('./resources/users-routes');
+
 const server = express();
 
-server.use(express.json())
+server.use(helmet(), express.json())
+
+// server.use('/api/register')
+// server.use('/api/login')
+server.use('/api/users', logger, userRoutes)
 
 server.get('/', logger, (req, res) => {
     res.send(`Hola Amigos!`)
