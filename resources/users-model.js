@@ -3,7 +3,6 @@ const db = require('../data/dbConfig');
 module.exports = {
     find,
     findBy,
-    add,
     remove
 }
 
@@ -14,10 +13,7 @@ function find() {
 function findBy(username){
     return db('users')
     .where(username)
-}
-
-function add() {
-    return null
+    .first()
 }
 
 function remove() {

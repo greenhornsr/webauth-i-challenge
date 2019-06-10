@@ -2,7 +2,7 @@ const db = require('../data/dbConfig')
 
 module.exports = {
     register,
-    login
+    logIn
 }
 
 function register(creds) {
@@ -14,6 +14,8 @@ function register(creds) {
     }) 
 }
 
-function login(creds) {
-    return null
+function logIn(cred) {
+    return db('users')
+    .where(cred)
+    .first()
 }

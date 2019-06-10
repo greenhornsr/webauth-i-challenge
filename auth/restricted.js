@@ -3,10 +3,9 @@ const User = require('../resources/users-model');
 
 
 function restricted(req, res, next) {
-    const {username, password} = req.body;
+    const {username, password} = req.headers;
     username && password ? 
-    User.findBy(username)
-    .first()
+    User.findBy({username})
     .then(user => {
         user && bcrypt.compareSync(password, user.password) ? next():
         res.status(401).json({status: false, message: 'Invalid Credentials!'})

@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const dbUsers = require('./users-model');
+const restricted = require('../auth/restricted');
 
 
-router.get('/', (req, res) => {
+
+router.get('/', restricted, (req, res) => {
     dbUsers.find()
     .then(users => {
         users.length >= 1 ? res.status(200).json({success: true, users}):
