@@ -5,7 +5,7 @@ const db = require('./auth-model');
 
 router.post('/', (req, res) => {
     const {username, password} = req.headers;
-    db.logIn({username})
+    db.logIn({username})  // without the {} around username, we would have to change the where statement for db.logIn to be where('username', cred).
     .then(user => {
         // console.log('password', password, 'user.password', user.password)
         user && bcrypt.compareSync(password, user.password) ?
