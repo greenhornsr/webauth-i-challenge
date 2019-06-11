@@ -1,26 +1,6 @@
-const bcrypt = require('bcryptjs');
-const User = require('../resources/users-model');
-
-
 function restricted(req, res, next) {
-    const {username, password} = req.headers;
-    username && password ? 
-    User.findBy({username})
-    .then(user => {
-        user && bcrypt.compareSync(password, user.password) ? next():
-        res.status(401).json({status: false, message: 'Invalid Credentials!'})
-    })
-    .catch(err => {
-        res.status(500).json(errorRef(err))
-    }):
-    res.status(400).json({success: false, message: 'Must provide a username and password'});
-}
-
-// Error Middleware
-const errorRef = (error) => {
-    const hash = Math.random().toString(36).substring(2);
-    console.log(hash, error)
-    return { message: `\n\nUnknown Error, Ref: ${hash}\n\n`, error }
+    req.session && req.session.username ? next():
+    res.status(401).json({success: false, message: 'Must be logged in with valid username and password!'});
 }
 
 module.exports = restricted;

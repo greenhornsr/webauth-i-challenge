@@ -8,9 +8,12 @@ router.post('/', (req, res) => {
     db.logIn({username})  // without the {} around username, we would have to change the where statement for db.logIn to be where('username', cred).
     .then(user => {
         // console.log('password', password, 'user.password', user.password)
-        user && bcrypt.compareSync(password, user.password) ?
-            res.status(200).json({ success: true, message: `Welcome ${user.username}!` }) :
+        if (user && bcrypt.compareSync(password, user.password)) {
+            req.session.username = user.username
+            res.status(200).json({ success: true, message: `Welcome ${user.username}!` })
+        }else{
             res.status(401).json({ success: false, message: 'Invalid Credentials' });
+        }
     })
     .catch(err => {
         res.status(500).json(errorRef(err))

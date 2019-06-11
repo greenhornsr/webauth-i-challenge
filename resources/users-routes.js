@@ -7,7 +7,7 @@ const restricted = require('../auth/restricted');
 router.get('/', restricted, (req, res) => {
     dbUsers.find()
     .then(users => {
-        users.length >= 1 ? res.status(200).json({success: true, users}):
+        users.length >= 1 ? res.status(200).json({success: true, users, session: req.session}):
         res.status(404).json({success: false, message: 'Sorry, currently, no users in database!'})
     })
     .catch(err => {
